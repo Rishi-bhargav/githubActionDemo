@@ -36,4 +36,3 @@ jobs:
       
       - name: Push Docker image to Amazon ECR
         run: docker push https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
-
