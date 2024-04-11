@@ -32,8 +32,8 @@ jobs:
         run: docker build -t calculatorgithubaction .
       
       - name: Tag Docker image
-        run: docker tag calculatorgithubaction https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo
+        run: docker tag calculatorgithubaction https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
       
       - name: Push Docker image to Amazon ECR
-        run: docker push https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo
+        run: docker push https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
 
