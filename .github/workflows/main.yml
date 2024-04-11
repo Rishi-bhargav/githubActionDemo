@@ -1,0 +1,29 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry: https://160395929441.dkr.ecr.us-west-2.amazonaws.com
+          aws-region: us-west-2
+      
+      - name: Build Docker image
+        run: docker build -t calculatorGithubAction .
+      
+      - name: Tag Docker image
+        run: docker tag calculatorGithubAction:latest https://160395929441.dkr.ecr.us-west-2.amazonaws.com/calculatorGithubAction:latest
+      
+      - name: Push Docker image to Amazon ECR
+        run: docker push https://160395929441.dkr.ecr.us-west-2.amazonaws.com/calculatorGithubAction:latest
