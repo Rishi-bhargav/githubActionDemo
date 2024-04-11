@@ -12,24 +12,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry: https://160395929441.dkr.ecr.us-west-2.amazonaws.com
-          aws-region: us-west-2
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin https://160395929441.dkr.ecr.us-east-1.amazonaws.com/
       
       - name: Create ECR Repository
         run: |
-          aws ecr create-repository --repository-name calculatorGithubAction --region us-west-2
+          aws ecr create-repository --repository-name calculatorGithubActionRepo --region us-east-1
 
       - name: Build Docker image
         run: docker build -t calculatorGithubAction .
       
       - name: Tag Docker image
-        run: docker tag calculatorGithubAction:latest https://160395929441.dkr.ecr.us-west-2.amazonaws.com/calculatorGithubAction:latest
+        run: docker tag calculatorGithubAction https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorGithubActionRepo
       
       - name: Push Docker image to Amazon ECR
-        run: docker push https://160395929441.dkr.ecr.us-west-2.amazonaws.com/calculatorGithubAction:latest
+        run: docker push https://160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorGithubActionRepo
