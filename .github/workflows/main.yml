@@ -34,6 +34,9 @@ jobs:
       - name: Tag Docker image
         run: docker tag calculatorgithubaction:v1 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
 
+      - name: Install Trivy
+        run : sudo yum -y install trivy
+
       - name: Run Trivy vulnerability scanner
         # uses: aquasecurity/trivy-action@master
         run: trivy image 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
