@@ -35,7 +35,8 @@ jobs:
         run: docker tag calculatorgithubaction:v1 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
 
       - name: Install Trivy
-        run : sudo yum -y install trivy
+        run : curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3
+
 
       - name: Run Trivy vulnerability scanner
         # uses: aquasecurity/trivy-action@master
