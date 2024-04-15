@@ -24,9 +24,9 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin https://160395929441.dkr.ecr.us-east-1.amazonaws.com/
       
-      - name: Create ECR Repository
-        run: |
-          aws ecr create-repository --repository-name calculatorgithubactionrepo --region us-east-1
+      # - name: Create ECR Repository
+      #   run: |
+      #     aws ecr create-repository --repository-name calculatorgithubactionrepo --region us-east-1
 
       - name: Build Docker image
         run: docker build -t calculatorgithubaction:v1 .
