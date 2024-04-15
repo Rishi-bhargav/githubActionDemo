@@ -33,6 +33,15 @@ jobs:
       
       - name: Tag Docker image
         run: docker tag calculatorgithubaction:v1 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        continue-on-error: false
+        with:
+         image-ref: 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
+         format: 'sarif'
+         output: 'trivy-results.sarif'
+         
     
       - name: Push Docker image to Amazon ECR
         run: docker push 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
