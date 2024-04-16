@@ -39,10 +39,16 @@ jobs:
 
 
       - name: Run Trivy vulnerability scanner
-        # uses: aquasecurity/trivy-action@master
-        run: trivy image 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
+        run: |
+          trivy_output=$(trivy image 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1)
+          if echo "$trivy_output" | grep -q 'CRITICAL\|HIGH'; then
+            echo "Vulnerabilities found: $trivy_output"
+            exit 1
+          else
+            echo "No critical or high vulnerabilities found. Proceeding with the build."
+          fi
 
-        # continue-on-error: false
+        continue-on-error: false
         # with:
         #  image-ref: 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1
         #  format: 'sarif'
