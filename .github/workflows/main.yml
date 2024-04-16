@@ -42,7 +42,7 @@ jobs:
         run: |
           trivy_output=$(trivy image --severity HIGH,CRITICAL --format json 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1)
           if echo "$trivy_output" | grep -q 'CRITICAL\|HIGH'; then
-            echo "Vulnerabilities found: $trivy_output"
+            echo "Vulnerabilities found:  "$trivy_output" | jq '.[].Vulnerabilities[] | select(.Severity | contains("HIGH") or contains("CRITICAL")) | {VulnerabilityID, Severity, PackageName, InstalledVersion, FixedVersion, Title}'
             exit 1
           else
             echo "No critical or high vulnerabilities found. Proceeding with the build."
