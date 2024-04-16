@@ -41,8 +41,11 @@ jobs:
       - name: Run Trivy vulnerability scanner
         run: |
           trivy_output=$(trivy image --severity HIGH,CRITICAL --format json 160395929441.dkr.ecr.us-east-1.amazonaws.com/calculatorgithubactionrepo:v1)
-          if echo "$trivy_output" | grep -q 'CRITICAL\|HIGH'; then
-            echo "Vulnerabilities found:  "$trivy_output" | jq '.[].Vulnerabilities[] | select(.Severity | contains("HIGH") or contains("CRITICAL")) | {VulnerabilityID, Severity, PackageName, InstalledVersion, FixedVersion, Title}'
+          echo "$trivy_output" > trivy_report.json
+          high_critical_count=$(echo "$trivy_output" | jq '[.[].Vulnerabilities[] | select(.Severity | contains("HIGH") or contains("CRITICAL"))] | length')
+          echo "High and critical vulnerabilities count: $high_critical_count"
+          if [[ $high_critical_count -gt 0 ]]; then
+            jq '.[].Vulnerabilities[] | select(.Severity | contains("HIGH") or contains("CRITICAL")) | {VulnerabilityID, Severity, PackageName, InstalledVersion, FixedVersion, Title}' trivy_report.json
             exit 1
           else
             echo "No critical or high vulnerabilities found. Proceeding with the build."
