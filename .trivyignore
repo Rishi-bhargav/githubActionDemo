@@ -1,1 +1,6 @@
+#vulnerabilities id to ignore
 CVE-2019-1010022
+
+#packages to ignore
+libc-bin
+libc6
