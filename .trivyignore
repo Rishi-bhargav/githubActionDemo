@@ -2,5 +2,5 @@
 CVE-2019-1010022
 
 #packages to ignore
-libc-bin
-libc6
+package : libc6 
+package : libc-bin 
