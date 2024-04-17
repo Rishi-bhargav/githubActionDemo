@@ -1,0 +1,7 @@
+
+ignore:
+  package:
+    - libc6
+    - libc-bin
+  vulnerabilities:
+    - CVE-2019-1010022
